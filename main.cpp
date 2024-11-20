@@ -8,15 +8,13 @@ int main() {
     noecho();
     cbreak();
 
-    int awalx = 0, awaly = 0; // Inisialisasi posisi awal
+    int awalx = 0, awaly = 0;
     int lebar = 20, tinggi = 10;
 
-    // Membuat window menu
     WINDOW *menu_win = newwin(tinggi, lebar, awaly, awalx);
 
     keypad(menu_win, TRUE);
 
-    // Daftar pilihan menu
     const char *opsi[] = {
         "Continue",
         "Login",
@@ -24,61 +22,61 @@ int main() {
     };
 
     int jumlahopsi = sizeof(opsi) / sizeof(char *);
-    int pilihanTerpilih = 0; // Indeks pilihan pertama
-    int pilihan = -1; // Pilihan default -1
+    int pilihanTerpilih = 0;
+    int pilihan = -1;
 
     while (1) {
-        print_menu(menu_win, pilihanTerpilih, opsi, jumlahopsi); // Menampilkan menu
+        print_menu(menu_win, pilihanTerpilih, opsi, jumlahopsi);
 
-        int tombol = wgetch(menu_win); // Membaca input dari keyboard
+        int tombol = wgetch(menu_win);
 
         switch (tombol) {
             case KEY_UP:
                 if (pilihanTerpilih == 0) {
-                    pilihanTerpilih = jumlahopsi - 1; // Kembali ke pilihan terakhir
+                    pilihanTerpilih = jumlahopsi - 1;
                 } else {
-                    --pilihanTerpilih; // Pindah ke pilihan sebelumnya
+                    --pilihanTerpilih;
                 }
                 break;
 
             case KEY_DOWN:
                 if (pilihanTerpilih == jumlahopsi - 1) {
-                    pilihanTerpilih = 0; // Kembali ke pilihan pertama
+                    pilihanTerpilih = 0;
                 } else {
-                    ++pilihanTerpilih; // Pindah ke pilihan berikutnya
+                    ++pilihanTerpilih;
                 }
                 break;
 
             case 10: // Enter
-                pilihan = pilihanTerpilih; // Menyimpan pilihan yang dipilih
+                pilihan = pilihanTerpilih;
                 break;
         }
 
-        clrtoeol(); // Membersihkan garis
-        refresh(); // Menyegarkan layar
+        clrtoeol();
+        refresh();
 
-        if (pilihan == 3) { // Pilih "Keluar"
-            break; // Keluar dari loop jika "Keluar" dipilih
+        if (pilihan == 3) {
+            break;
         }
     }
 
-    endwin(); // Mengakhiri ncurses
+    endwin(); 
     return 0;
 }
 
 void print_menu(WINDOW *menu_win, int pilihanTerpilih, const char *opsi[], int jumlahopsi) {
     for (int i = 0; i < jumlahopsi; ++i) {
         if (i == pilihanTerpilih) {
-            wattron(menu_win, A_REVERSE); // Menandai pilihan yang dipilih
+            wattron(menu_win, A_REVERSE);
         }
 
-        mvwprintw(menu_win, i + 1, 1, opsi[i]); // Menampilkan opsi
+        mvwprintw(menu_win, i + 1, 1, opsi[i]);
 
         if (i == pilihanTerpilih) {
-            wattroff(menu_win, A_REVERSE); // Menghilangkan penandaan pilihan
+            wattroff(menu_win, A_REVERSE);
         }
     }
 
-    wrefresh(menu_win); // Menyegarkan window menu
+    wrefresh(menu_win);
 }
 
