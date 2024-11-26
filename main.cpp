@@ -5,7 +5,7 @@
 #include <windows.h>
 using namespace std;
 
-bool isLoggedIn() {
+bool isLoggedIn() 
     string username, password;
     string un, pw;
 
