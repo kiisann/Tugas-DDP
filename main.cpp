@@ -6,13 +6,13 @@
 using namespace std;
 
 bool isLoggedIn() {
-    string username, password;
-    string un, pw;
+    tring username, password;
+    tring un, pw;
 
-    cout << "Enter a username: ";
-    cin >> username; 
-    cout << "Enter a password: ";
-    cin >> password;
+    out << "Enter a username: ";
+    in >> username; 
+    out << "Enter a password: ";
+    in >> password;
 
     ifstream read("akun.txt");
     if (!read.is_open()) {
