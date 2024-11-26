@@ -49,11 +49,7 @@ void registerAccount() {
 }
 
 void loadingAnimation() {
-    system("color 5F");
-    system("cls");
-    SetConsoleCP(437);
-    SetConsoleOutputCP(437);
-
+    
     char bar1 = 177, bar2 = 219;
 
     cout << "\n\n\n\n\n\n\t\t\t\tLoading...";
