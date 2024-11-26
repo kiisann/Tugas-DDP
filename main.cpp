@@ -14,18 +14,18 @@ bool isLoggedIn() {
     cout << "Enter a password: ";
     cin >> password;
 
-    ifstream read("akun.txt");
-    if (!read.is_open()) {
+    fstream read("akun.txt");
+    f (!read.is_open()) {
         cerr << "Error opening file!" << endl;
         return false;
     }
 
-    while (read >> un >> pw) { 
-        if (un == username && pw == password) {
+    hile (read >> un >> pw) { 
+        f (un == username && pw == password) {
             return true;
         }
     }
-    return false;
+    eturn false;
 }
 
 void registerAccount() {
