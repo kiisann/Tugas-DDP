@@ -26,7 +26,7 @@ bool isLoggedIn() {
         }
     }
     return false;
-
+}
 
 void registerAccount() {
     string username, password;
