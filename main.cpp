@@ -1,115 +1,146 @@
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <ncurses/curses.h>
+#include <windows.h>
+using namespace std;
 
-void print_menu(WINDOW *menu_win, int pilihanTerpilih, const char *opsi[], int jumlahopsi);
-void move_character(WINDOW *game_win, int &x, int &y, int input);
+bool isLoggedIn() {
+    string username, password;
+    string un, pw;
+
+    cout << "Enter a username: ";
+    cin >> username; 
+    cout << "Enter a password: ";
+    cin >> password;
+
+    ifstream read("akun.txt");
+    if (!read.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return false;
+    }
+
+    while (read >> un >> pw) { 
+        if (un == username && pw == password) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void registerAccount() {
+    string username, password;
+
+    cout << "Registration: " << endl;
+    cout << "Select a username: "; 
+    cin >> username;
+    cout << "Select a password: ";
+    cin >> password;
+
+    ofstream file;
+    file.open("akun.txt", ios::app);
+    if (!file.is_open()) {
+        cerr << "Error opening file!" << endl;
+        return;
+    }
+    file << username << " " << password << endl;
+    file.close();
+    cout << "Welcome " << username << "!" << endl;
+}
+
+//---------------Loading--------------------
+void loadingAnimation() {
+    initscr(); 
+    for(int i = 0; i < 3; i++) {
+        mvprintw(26, 100, "Loading...");
+        mvprintw(27, 100, "--------------------");
+        mvprintw(28, 100, "|                  |");
+        mvprintw(29, 100, "--------------------");
+
+        for(int j = 1; j < 18; j++) {
+            mvprintw(28, 100 + j, ">");
+            refresh();
+            Sleep(100);
+        }
+        clear(); 
+    }
+    endwin();
+}
+
+//----------------Animasi Bergerak--------------------
+void dashboard() {
+    int x = 10, y = 10; 
+    int ch;
+    
+    initscr(); 
+    raw(); 
+    keypad(stdscr, TRUE);
+    noecho();
+
+    mvprintw(0, 0, "Gunakan tombol panah untuk bergerak. Tekan 'q' untuk keluar.");
+
+    while ((ch = getch()) != 'q') {
+        clear();
+        refresh();
+        mvprintw(0, 0, "Gunakan tombol panah untuk bergerak. Tekan 'q' untuk keluar.");
+
+        switch (ch) {
+            case KEY_UP:
+                y = (y > 0) ? y - 1 : y;
+                break; 
+            case KEY_DOWN:
+                y = (y < LINES - 1) ? y + 1 : y;
+                break; 
+            case KEY_LEFT:
+                x = (x > 0) ? x - 1 : x;
+                break;
+            case KEY_RIGHT:
+                x = (x < COLS - 1) ? x + 1 : x;
+                break;
+        }
+
+        mvprintw(y, x, "A");
+        refresh();
+    }
+    
+    endwin();
+}
 
 int main() {
-    initscr();
-    clear();
-    noecho();
-    cbreak();
+    int choice;
 
-    int menu_awalx = 5, menu_awaly = 3;
-    int menu_lebar = 20, menu_tinggi = 10;
-    int game_lebar = 40, game_tinggi = 20;
+//-----------------------Menu--------------------------
+    while (true) {
+        cout << endl;
+        cout << "Main Menu: " << endl;
+        cout << "-------------------------------" << endl;
+        cout << "1. Register" << endl;
+        cout << "2. Login" << endl;
+        cout << "3. Exit" << endl;
+        cout << endl;
+        cout << "Your choice: ";
+        cin >> choice; 
 
-    WINDOW *menu_win = newwin(menu_tinggi, menu_lebar, menu_awaly, menu_awalx);
-    WINDOW *game_win = newwin(game_tinggi, game_lebar, menu_awaly, menu_awalx + menu_lebar + 5);
-    keypad(menu_win, TRUE);
-    keypad(game_win, TRUE);
+        if (choice == 1) {
+            registerAccount();
+        } else if (choice == 2) { 
+            bool status = isLoggedIn();
 
-    // Daftar menu
-    const char *opsi[] = {
-        "Buat Akun",
-        "Login",
-        "Exit",
-    };
-
-    int jumlahopsi = sizeof(opsi) / sizeof(char *);
-    int pilihanTerpilih = 0;
-    int pilihan = -1;        
-
-    int x = game_lebar / 2, y = game_tinggi / 2;
-
-    while (1) {
-        // Cetak menu
-        print_menu(menu_win, pilihanTerpilih, opsi, jumlahopsi);
-        int tombol = wgetch(menu_win);
-
-        switch (tombol) {
-            case KEY_UP:
-                pilihanTerpilih = (pilihanTerpilih == 0) ? jumlahopsi - 1 : pilihanTerpilih - 1;
-                break;
-            case KEY_DOWN:
-                pilihanTerpilih = (pilihanTerpilih == jumlahopsi - 1) ? 0 : pilihanTerpilih + 1;
-                break;
-            case 10:
-                pilihan = pilihanTerpilih;
-                break;
-        }
-
-        if (pilihan == 2) {
-            break;
-        } else if (pilihan == 0) {
-            wclear(game_win);
-            box(game_win, 0, 0);
-            mvwprintw(game_win, 1, 1, "Gerakkan 'A' dengan tombol panah!");
-            mvwprintw(game_win, 2, 1, "Tekan 'q' untuk kembali ke menu.");
-            mvwaddch(game_win, y, x, 'A');
-            wrefresh(game_win);
-
-            while (1) {
-                int input = wgetch(game_win);
-                if (input == 'q') {
-                    break;
-                }
-                move_character(game_win, x, y, input);
+            if (!status) { 
+                cout << endl;
+                cout << "Invalid login!" << endl;
+            } else { // if isLoggedIn() returns true
+                cout << "Successfully logged in!" << endl;
+                loadingAnimation(); 
+                dashboard(); 
             }
-            pilihan = -1;
+        } else if (choice == 3) {
+            cout << "Exiting program." << endl;
+            break;
+        } else {
+            cout << "Invalid choice! Please try again." << endl;
         }
     }
 
-    endwin();
     return 0;
-}
-
-void print_menu(WINDOW *menu_win, int pilihanTerpilih, const char *opsi[], int jumlahopsi) {
-    wclear(menu_win);
-    box(menu_win, 0, 0);
-    mvwprintw(menu_win, 0, 1, " MENU ");
-
-    for (int i = 0; i < jumlahopsi; ++i) {
-        if (i == pilihanTerpilih) {
-            wattron(menu_win, A_REVERSE);
-        }
-        mvwprintw(menu_win, i + 1, 1, opsi[i]);
-        if (i == pilihanTerpilih) {
-            wattroff(menu_win, A_REVERSE);
-        }
-    }
-
-    wrefresh(menu_win);
-}
-
-void move_character(WINDOW *game_win, int &x, int &y, int input) {
-    int max_x, max_y;
-    getmaxyx(game_win, max_y, max_x);
-
-    mvwaddch(game_win, y, x, ' '); 
-    switch (input) {
-        case KEY_UP:
-            y = (y > 1) ? y - 1 : y;
-            break;
-        case KEY_DOWN:
-            y = (y < max_y - 2) ? y + 1 : y;
-            break;
-        case KEY_LEFT:
-            x = (x > 1) ? x - 1 : x;
-            break;
-        case KEY_RIGHT:
-            x = (x < max_x - 2) ? x + 1 : x;
-            break;
-    }
-    mvwaddch(game_win, y, x, 'A');
-    wrefresh(game_win);
 }
