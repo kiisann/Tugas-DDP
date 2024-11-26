@@ -38,14 +38,14 @@ void registerAccount() {
     cin >> password;
 
     ofstream file;
-    file.open("akun.txt", ios::app);
-    if (!file.is_open()) {
+    ile.open("akun.txt", ios::app);
+    f (!file.is_open()) {
         cerr << "Error opening file!" << endl;
         return;
     }
-    file << username << " " << password << endl;
-    file.close();
-    cout << "Welcome " << username << "!" << endl;
+    ile << username << " " << password << endl;
+    ile.close();
+    out << "Welcome " << username << "!" << endl;
 }
 
 void loadingAnimation() {
