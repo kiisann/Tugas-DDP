@@ -4,24 +4,21 @@ void print_menu(WINDOW *menu_win, int pilihanTerpilih, const char *opsi[], int j
 void move_character(WINDOW *game_win, int &x, int &y, int input);
 
 int main() {
-    // Inisialisasi ncurses
     initscr();
     clear();
     noecho();
     cbreak();
 
-    // Dimensi untuk menu dan layar permainan
     int menu_awalx = 5, menu_awaly = 3;
     int menu_lebar = 20, menu_tinggi = 10;
     int game_lebar = 40, game_tinggi = 20;
 
-    // Membuat jendela menu dan layar permainan
     WINDOW *menu_win = newwin(menu_tinggi, menu_lebar, menu_awaly, menu_awalx);
     WINDOW *game_win = newwin(game_tinggi, game_lebar, menu_awaly, menu_awalx + menu_lebar + 5);
     keypad(menu_win, TRUE);
-    keypad(game_win, TRUE); // Pastikan game_win juga menangkap tombol panah
+    keypad(game_win, TRUE);
 
-    // Daftar opsi menu
+    // Daftar menu
     const char *opsi[] = {
         "Buat Akun",
         "Login",
@@ -29,13 +26,11 @@ int main() {
     };
 
     int jumlahopsi = sizeof(opsi) / sizeof(char *);
-    int pilihanTerpilih = 0; // Indeks opsi yang disorot
-    int pilihan = -1;        // Variabel untuk menyimpan pilihan pengguna
+    int pilihanTerpilih = 0;
+    int pilihan = -1;        
 
-    // Posisi awal karakter dalam layar permainan
     int x = game_lebar / 2, y = game_tinggi / 2;
 
-    // Loop menu utama
     while (1) {
         // Cetak menu
         print_menu(menu_win, pilihanTerpilih, opsi, jumlahopsi);
@@ -48,16 +43,14 @@ int main() {
             case KEY_DOWN:
                 pilihanTerpilih = (pilihanTerpilih == jumlahopsi - 1) ? 0 : pilihanTerpilih + 1;
                 break;
-            case 10: // Tombol Enter
+            case 10:
                 pilihan = pilihanTerpilih;
                 break;
         }
 
-        // Pilihan pengguna
-        if (pilihan == 2) { // Exit
+        if (pilihan == 2) {
             break;
-        } else if (pilihan == 0) { // Continue
-            // Masuk ke mode permainan
+        } else if (pilihan == 0) {
             wclear(game_win);
             box(game_win, 0, 0);
             mvwprintw(game_win, 1, 1, "Gerakkan 'A' dengan tombol panah!");
@@ -65,24 +58,21 @@ int main() {
             mvwaddch(game_win, y, x, 'A');
             wrefresh(game_win);
 
-            // Loop permainan
             while (1) {
                 int input = wgetch(game_win);
-                if (input == 'q') { // Keluar permainan
+                if (input == 'q') {
                     break;
                 }
                 move_character(game_win, x, y, input);
             }
-            pilihan = -1; // Kembali ke menu
+            pilihan = -1;
         }
     }
 
-    // Akhiri ncurses
     endwin();
     return 0;
 }
 
-// Fungsi untuk mencetak menu
 void print_menu(WINDOW *menu_win, int pilihanTerpilih, const char *opsi[], int jumlahopsi) {
     wclear(menu_win);
     box(menu_win, 0, 0);
@@ -101,12 +91,11 @@ void print_menu(WINDOW *menu_win, int pilihanTerpilih, const char *opsi[], int j
     wrefresh(menu_win);
 }
 
-// Fungsi untuk menggerakkan karakter
 void move_character(WINDOW *game_win, int &x, int &y, int input) {
     int max_x, max_y;
     getmaxyx(game_win, max_y, max_x);
 
-    mvwaddch(game_win, y, x, ' '); // Hapus karakter dari posisi sebelumnya
+    mvwaddch(game_win, y, x, ' '); 
     switch (input) {
         case KEY_UP:
             y = (y > 1) ? y - 1 : y;
@@ -121,6 +110,6 @@ void move_character(WINDOW *game_win, int &x, int &y, int input) {
             x = (x < max_x - 2) ? x + 1 : x;
             break;
     }
-    mvwaddch(game_win, y, x, 'A'); // Cetak karakter di posisi baru
+    mvwaddch(game_win, y, x, 'A');
     wrefresh(game_win);
 }
