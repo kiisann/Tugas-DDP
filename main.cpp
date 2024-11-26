@@ -28,14 +28,14 @@ bool isLoggedIn() {
     return false;
 }
 
-void registerAccount() {
-    string username, password;
+oid registerAccount() {
+    tring username, password;
 
-    cout << "Registration: " << endl;
-    cout << "Select a username: "; 
-    cin >> username;
-    cout << "Select a password: ";
-    cin >> password;
+    out << "Registration: " << endl;
+    out << "Select a username: "; 
+    in >> username;
+    out << "Select a password: ";
+    in >> password;
 
     ofstream file;
     file.open("akun.txt", ios::app);
