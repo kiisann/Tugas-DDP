@@ -129,7 +129,7 @@ int main() {
             if (!status) { 
                 cout << endl;
                 cout << "Invalid login!" << endl;
-            } else { // if isLoggedIn() returns true
+            } else { 
                 cout << "Successfully logged in!" << endl;
                 loadingAnimation(); 
                 dashboard(); 
