@@ -50,22 +50,22 @@ void registerAccount() {
 
 void loadingAnimation() {
     
-    har bar1 = 177, bar2 = 219;
+    char bar1 = 177, bar2 = 219;
 
-    out << "\n\n\n\n\n\n\t\t\t\tLoading...";
-    out << "\n\n\t\t\t\t";
+    cout << "\n\n\n\n\n\n\t\t\t\tLoading...";
+    cout << "\n\n\t\t\t\t";
 
     for (int i = 0; i < 25; i++)
         cout << (char)bar1;
 
-    out << "\r\t\t\t\t";
+    cout << "\r\t\t\t\t";
 
     for (int i = 0; i < 25; i++) {
         cout << (char)bar2;
         Sleep(100);
     }
 
-    out << "\n\n\t\t\t\tDone!";
+    cout << "\n\n\t\t\t\tDone!";
     system("Pause");
 }
 
