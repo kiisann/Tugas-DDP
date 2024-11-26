@@ -49,21 +49,28 @@ void registerAccount() {
 }
 
 void loadingAnimation() {
-    initscr(); 
-    for(int i = 0; i < 3; i++) {
-        mvprintw(26, 100, "Loading...");
-        mvprintw(27, 100, "--------------------");
-        mvprintw(28, 100, "|                  |");
-        mvprintw(29, 100, "--------------------");
+    system("color 5F");
+    system("cls");
+    SetConsoleCP(437);
+    SetConsoleOutputCP(437);
 
-        for(int j = 1; j < 18; j++) {
-            mvprintw(28, 100 + j, ">");
-            refresh();
-            Sleep(100);
-        }
-        clear(); 
+    char bar1 = 177, bar2 = 219;
+
+    cout << "\n\n\n\n\n\n\t\t\t\tLoading...";
+    cout << "\n\n\t\t\t\t";
+
+    for (int i = 0; i < 25; i++)
+        cout << (char)bar1;
+
+    cout << "\r\t\t\t\t";
+
+    for (int i = 0; i < 25; i++) {
+        cout << (char)bar2;
+        Sleep(100);
     }
-    endwin();
+
+    cout << "\n\n\t\t\t\tDone!";
+    system("Pause");
 }
 
 void dashboard() {
