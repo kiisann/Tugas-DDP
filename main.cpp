@@ -48,7 +48,6 @@ void registerAccount() {
     cout << "Welcome " << username << "!" << endl;
 }
 
-//---------------Loading--------------------
 void loadingAnimation() {
     initscr(); 
     for(int i = 0; i < 3; i++) {
@@ -67,7 +66,6 @@ void loadingAnimation() {
     endwin();
 }
 
-//----------------Animasi Bergerak--------------------
 void dashboard() {
     int x = 10, y = 10; 
     int ch;
@@ -109,7 +107,6 @@ void dashboard() {
 int main() {
     int choice;
 
-//-----------------------Menu--------------------------
     while (true) {
         cout << endl;
         cout << "Main Menu: " << endl;
