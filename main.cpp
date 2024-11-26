@@ -38,34 +38,34 @@ void registerAccount() {
     cin >> password;
 
     ofstream file;
-    ile.open("akun.txt", ios::app);
-    f (!file.is_open()) {
+    file.open("akun.txt", ios::app);
+    if (!file.is_open()) {
         cerr << "Error opening file!" << endl;
         return;
     }
-    ile << username << " " << password << endl;
-    ile.close();
-    out << "Welcome " << username << "!" << endl;
+    file << username << " " << password << endl;
+    file.close();
+    cout << "Welcome " << username << "!" << endl;
 }
 
 void loadingAnimation() {
     
-    char bar1 = 177, bar2 = 219;
+    har bar1 = 177, bar2 = 219;
 
-    cout << "\n\n\n\n\n\n\t\t\t\tLoading...";
-    cout << "\n\n\t\t\t\t";
+    out << "\n\n\n\n\n\n\t\t\t\tLoading...";
+    out << "\n\n\t\t\t\t";
 
     for (int i = 0; i < 25; i++)
         cout << (char)bar1;
 
-    cout << "\r\t\t\t\t";
+    out << "\r\t\t\t\t";
 
     for (int i = 0; i < 25; i++) {
         cout << (char)bar2;
         Sleep(100);
     }
 
-    cout << "\n\n\t\t\t\tDone!";
+    out << "\n\n\t\t\t\tDone!";
     system("Pause");
 }
 
