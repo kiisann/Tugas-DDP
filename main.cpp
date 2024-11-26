@@ -1,9 +1,9 @@
-include <iostream>
-include <fstream>
-include <string>
-include <ncurses/curses.h>
-include <windows.h>
-sing namespace std;
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ncurses/curses.h>
+#include <windows.h>
+using namespace std;
 
 bool isLoggedIn() {
     string username, password;
